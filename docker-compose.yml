@@ -1,0 +1,91 @@
+version: "3.9"
+
+services:
+  auth-db:
+    image: postgres:17
+
+    container_name: auth-postgres
+
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: auth_database
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - auth_data:/var/lib/postgresql/data
+      - ./infrastructure/postgresql/auth/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  task-db:
+    image: postgres:17
+
+    container_name: task-postgres
+
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: task_database
+
+    ports:
+      - "5433:5432"
+
+    volumes:
+      - task_data:/var/lib/postgresql/data
+      - ./infrastructure/postgresql/task/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  auth-service:
+    build:
+      context: .
+      dockerfile: services/auth/Dockerfile
+
+    container_name: auth-service
+
+    depends_on:
+      - auth-db
+
+    env_file:
+      - services/auth/.env
+
+    ports:
+      - "8001:8001"
+
+    volumes:
+      - .:/app
+
+    command: >
+      uvicorn services.auth.src.main:auth_api
+      --host 0.0.0.0
+      --port 8001
+      --reload
+
+  task-service:
+    build:
+      context: .
+      dockerfile: services/task/Dockerfile
+
+    container_name: task-service
+
+    depends_on:
+      - task-db
+      - auth-service
+
+    env_file:
+      - services/task/.env
+
+    ports:
+      - "8000:8000"
+
+    volumes:
+      - .:/app
+
+    command: >
+      uvicorn services.task.src.main:app
+      --host 0.0.0.0
+      --port 8000
+      --reload
+
+volumes:
+  auth_data:
+  task_data:
