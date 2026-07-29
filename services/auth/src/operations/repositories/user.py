@@ -35,7 +35,7 @@ class UserRepository:
         self,
         user_id: UUID,
     ) -> User | None:
-        """Get a user by id."""
+        """Return a user by user ID."""
 
         result = await self._session.execute(
             select(User)
@@ -49,16 +49,12 @@ class UserRepository:
         self,
         username: str,
     ) -> User | None:
-        """Get a user by username."""
+        """Return a user by username."""
 
         result = await self._session.execute(
             select(User)
-            .options(
-                selectinload(User.role),
-            )
-            .where(
-                User.username == username,
-            ),
+            .options(selectinload(User.role))
+            .where(User.username == username),
         )
 
         return result.scalar_one_or_none()

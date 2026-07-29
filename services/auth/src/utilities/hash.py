@@ -42,4 +42,4 @@ def needs_rehash(hashed_value: str) -> bool:
     return _password_hasher.check_needs_rehash(hashed_value)
 
 
-print(hash_password("stringstA@1"))
+# print(hash_password("stringstA@1"))

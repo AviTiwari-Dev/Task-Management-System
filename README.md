@@ -412,3 +412,10 @@ Begin Development
 # License
 
 This project is provided for assessment and educational purposes.
+
+# Sample Users
+
+| user_id | first_name | middle_name | last_name | username | password |
+| --- | --- | --- | --- | --- | --- |
+| 11111111-1111-1111-1111-111111111111 | System | | Administrator | admin | stringstA@1 |
+| 22222222-2222-2222-2222-222222222222 | John | | Doe | john | stringstA@1 |
