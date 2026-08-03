@@ -16,11 +16,4 @@ RUN pip install --no-cache-dir \
     -r services/auth/requirements/base.txt \
     -r services/auth/requirements/prod.txt
 
-CMD [
-    "uvicorn",
-    "services.auth.src.main:auth_api",
-    "--host",
-    "0.0.0.0",
-    "--port",
-    "8001"
-]
+CMD ["uvicorn", "services.auth.src.main:auth_api", "--host", "0.0.0.0", "--port", "8001"]
