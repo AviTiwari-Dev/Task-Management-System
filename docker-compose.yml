@@ -4,6 +4,7 @@ services:
   auth-db:
     image: postgres:17
 
+    platform: linux/amd64
     container_name: auth-postgres
 
     environment:
@@ -21,6 +22,7 @@ services:
   task-db:
     image: postgres:17
 
+    platform: linux/amd64
     container_name: task-postgres
 
     environment:
@@ -36,6 +38,7 @@ services:
       - ./infrastructure/postgresql/task/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   auth-service:
+    platform: linux/amd64
     build:
       context: .
       dockerfile: services/auth/Dockerfile
@@ -61,6 +64,7 @@ services:
       --reload
 
   task-service:
+    platform: linux/amd64
     build:
       context: .
       dockerfile: services/task/Dockerfile
