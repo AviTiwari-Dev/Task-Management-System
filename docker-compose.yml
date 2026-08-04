@@ -8,9 +8,9 @@ services:
     container_name: auth-postgres
 
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: auth_database
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${AUTH_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${AUTH_POSTGRES_DB}
 
     ports:
       - "5432:5432"
@@ -26,9 +26,9 @@ services:
     container_name: task-postgres
 
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: task_database
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${TASK_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${TASK_POSTGRES_DB}
 
     ports:
       - "5433:5432"
