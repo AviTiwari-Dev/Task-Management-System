@@ -1,19 +1,26 @@
-FROM python:3.14
+FROM python:3.14-slim-bookworm AS builder
 
 WORKDIR /app
 
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
+RUN apt-get update && \
+    apt-get install -y build-essential
+
+COPY services/auth/requirements ./requirements
+
+RUN pip install --prefix=/install \
+    -r requirements/base.txt \
+    -r requirements/prod.txt
+
+FROM python:3.14-slim-bookworm
+
+WORKDIR /app
+
 ENV PYTHONPATH=/app
 
-RUN apt-get update \
- && apt-get install -y build-essential \
- && rm -rf /var/lib/apt/lists/*
+COPY --from=builder /install /usr/local
 
-COPY . .
-
-RUN pip install --no-cache-dir \
-    -r services/auth/requirements/base.txt \
-    -r services/auth/requirements/prod.txt
+COPY services/auth ./services/auth
+COPY shared/ ./shared
+COPY infrastructure ./infrastructure
 
 CMD ["uvicorn", "services.auth.src.main:auth_api", "--host", "0.0.0.0", "--port", "8001"]
