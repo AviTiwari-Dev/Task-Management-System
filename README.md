@@ -419,3 +419,7 @@ This project is provided for assessment and educational purposes.
 | --- | --- | --- | --- | --- | --- |
 | 11111111-1111-1111-1111-111111111111 | System | | Administrator | admin | stringstA@1 |
 | 22222222-2222-2222-2222-222222222222 | John | | Doe | john | stringstA@1 |
+
+# Setup Instructions
+
+Rename .env.example file to .env file in both the services root directory
